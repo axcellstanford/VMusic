@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worship Style Manager - Simple</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #2d3748;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        h1 i {
+            color: #764ba2;
+        }
+        
+        .subtitle {
+            color: #718096;
+            margin-bottom: 32px;
+            font-size: 0.95rem;
+        }
+        
+        /* Form Styles */
+        .add-form {
+            background: #f7fafc;
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
+        }
+        
+        .key-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .key-option {
+            padding: 12px 8px;
+            text-align: center;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .key-option:hover {
+            border-color: #764ba2;
+            background: #f3e8ff;
+        }
+        
+        .key-option.selected {
+            background: #764ba2;
+            color: white;
+            border-color: #764ba2;
+        }
+        
+        .key-option.accidental {
+            background: #fef5e7;
+        }
+        
+        .key-option.accidental.selected {
+            background: #764ba2;
+            color: white;
+        }
+        
+        .btn {
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background: #5a3785;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #48bb78;
+            margin-top: 8px;
+        }
+        
+        .btn-secondary:hover {
+            background: #38a169;
+        }
+        
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border: 2px solid #e2e8f0;
+            border-radius: 40px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .search-input:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 1.2rem;
+        }
+        
+        .clear-search {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            cursor: pointer;
+            padding: 4px;
+            display: none;
+        }
+        
+        .clear-search:hover {
+            color: #764ba2;
+        }
+        
+        /* Song List */
+        .song-list {
+            margin-top: 24px;
+        }
+        
+        .song-item {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s;
+        }
+        
+        .song-item:hover {
+            border-color: #764ba2;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .song-info {
+            flex: 1;
+        }
+        
+        .song-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 6px;
+        }
+        
+        /* Highlight pencarian */
+        .highlight {
+            background: #fef5e7;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+        
+        .song-meta {
+            display: flex;
+            gap: 16px;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        .song-meta i {
+            margin-right: 6px;
+            color: #764ba2;
+        }
+        
+        .key-badge {
+            background: #764ba2;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .style-badge {
+            background: #edf2f7;
+            color: #4a5568;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .song-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .icon-btn {
+            background: none;
+            border: none;
+            color: #a0aec0;
+            cursor: pointer;
+            padding: 8px;
+            font-size: 1.2rem;
+            transition: color 0.2s;
+        }
+        
+        .icon-btn:hover {
+            color: #764ba2;
+        }
+        
+        .icon-btn.delete:hover {
+            color: #e53e3e;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 48px 20px;
+            color: #a0aec0;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-select {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-box {
+            background: #f7fafc;
+            padding: 16px;
+            border-radius: 12px;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #764ba2;
+        }
+        
+        .stat-label {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+        
+        .search-result-count {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+        
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            .key-grid { grid-template-columns: repeat(4, 1fr); }
+            .song-meta { flex-direction: column; gap: 6px; }
+            .filter-bar { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <i class="fas fa-music"></i>
+            Worship Style Manager
+        </h1>
+        <p class="subtitle">Kelola lagu rohani dengan kunci dasar dan style iringan</p>
+        
+        <!-- Form Tambah Lagu -->
+        <div class="add-form">
+            <h3 style="margin-bottom: 20px; color: #2d3748;">
+                <i class="fas fa-plus-circle" style="color: #764ba2;"></i> Tambah Lagu Baru
+            </h3>
+            
+            <div class="form-group">
+                <label><i class="fas fa-heading"></i> Nama Lagu</label>
+                <input type="text" id="songTitle" placeholder="Contoh: Amazing Grace" maxlength="100">
+            </div>
+            
+            <div class="form-group">
+                <label><i class="fas fa-key"></i> Kunci Dasar (12 Pilihan)</label>
+                <div class="key-grid" id="keyGrid"></div>
+                <input type="hidden" id="selectedKey" value="C">
+            </div>
+            
+            <div class="form-group">
+                <label><i class="fas fa-sliders-h"></i> Nama Style</label>
+                <select id="songStyle">
+                    <option value="">-- Pilih Style --</option>
+                    <option value="Pop Ballad">Pop Ballad</option>
+                    <option value="Slow Worship">Slow Worship</option>
+                    <option value="Rock Gospel">Rock Gospel</option>
+                    <option value="Bossa Nova">Bossa Nova</option>
+                    <option value="Waltz 3/4">Waltz 3/4</option>
+                    <option value="Shuffle Blues">Shuffle Blues</option>
+                    <option value="March">March</option>
+                    <option value="Reggae">Reggae</option>
+                    <option value="Country">Country</option>
+                    <option value="Orchestral">Orchestral</option>
+                    <option value="Piano Solo">Piano Solo</option>
+                    <option value="Acoustic Fingerstyle">Acoustic Fingerstyle</option>
+                    <option value="Custom">Custom (Tulis Manual)</option>
+                </select>
+                <input type="text" id="customStyle" placeholder="Atau tulis style manual..." style="margin-top: 8px; display: none;">
+            </div>
+            
+            <button class="btn" id="addSongBtn">
+                <i class="fas fa-save"></i> Simpan Lagu
+            </button>
+            <button class="btn btn-secondary" id="cancelEditBtn" style="display: none;">
+                <i class="fas fa-times"></i> Batal Edit
+            </button>
+        </div>
+        
+        <!-- Statistik -->
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number" id="totalSongs">0</div>
+                <div class="stat-label">Total Lagu</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="popularKey">-</div>
+                <div class="stat-label">Kunci Terbanyak</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="popularStyle">-</div>
+                <div class="stat-label">Style Terbanyak</div>
+            </div>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" id="searchInput" placeholder="Cari lagu... (minimal 2 huruf)">
+            <i class="fas fa-times clear-search" id="clearSearch"></i>
+        </div>
+        
+        <!-- Filter -->
+        <div class="filter-bar">
+            <select class="filter-select" id="filterKey">
+                <option value="">Semua Kunci</option>
+            </select>
+            <select class="filter-select" id="filterStyle">
+                <option value="">Semua Style</option>
+            </select>
+        </div>
+        
+        <!-- Search Result Info -->
+        <div class="search-result-count" id="searchResultCount"></div>
+        
+        <!-- Daftar Lagu -->
+        <div class="song-list" id="songList">
+            <div class="empty-state">
+                <i class="fas fa-music"></i>
+                <p>Belum ada lagu. Tambahkan lagu pertama Anda!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Database sederhana dengan localStorage
+        const STORAGE_KEY = 'worship_simple_db';
+        
+        // 12 Kunci Kromatis
+        const ALL_KEYS = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        
+        // State aplikasi
+        let songs = [];
+        let editingId = null;
+        let searchQuery = '';
+        
+        // Load data dari localStorage
+        function loadSongs() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                songs = JSON.parse(stored);
+            } else {
+                // Data contoh
+                songs = [
+                    { id: '1', title: 'Amazing Grace', key: 'G', style: 'Slow Worship' },
+                    { id: '2', title: 'How Great Is Our God', key: 'C', style: 'Pop Ballad' },
+                    { id: '3', title: '10,000 Reasons', key: 'G', style: 'Acoustic Fingerstyle' },
+                    { id: '4', title: 'Kau Yang Terindah', key: 'E', style: 'Pop Ballad' },
+                    { id: '5', title: 'Bapa Engkau Sungguh Baik', key: 'D', style: 'Piano Solo' },
+                ];
+                saveSongs();
+            }
+        }
+        
+        function saveSongs() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(songs));
+        }
+        
+        // Render Key Grid
+        function renderKeyGrid() {
+            const grid = document.getElementById('keyGrid');
+            const selectedKey = document.getElementById('selectedKey').value;
+            
+            grid.innerHTML = ALL_KEYS.map(key => {
+                const isAccidental = key.includes('#');
+                const isSelected = key === selectedKey;
+                return `<div class="key-option ${isAccidental ? 'accidental' : ''} ${isSelected ? 'selected' : ''}" 
+                             onclick="selectKey('${key}')">${key}</div>`;
+            }).join('');
+        }
+        
+        window.selectKey = function(key) {
+            document.getElementById('selectedKey').value = key;
+            renderKeyGrid();
+        };
+        
+        // Fungsi pencarian dengan highlight
+        function searchSongs(songList, query) {
+            if (!query || query.length < 2) return songList;
+            
+            const lowerQuery = query.toLowerCase();
+            return songList.filter(song => 
+                song.title.toLowerCase().includes(lowerQuery)
+            );
+        }
+        
+        // Highlight teks yang cocok dengan pencarian
+        function highlightText(text, query) {
+            if (!query || query.length < 2) return escapeHtml(text);
+            
+            const lowerText = text.toLowerCase();
+            const lowerQuery = query.toLowerCase();
+            const index = lowerText.indexOf(lowerQuery);
+            
+            if (index === -1) return escapeHtml(text);
+            
+            const before = escapeHtml(text.substring(0, index));
+            const match = escapeHtml(text.substring(index, index + query.length));
+            const after = escapeHtml(text.substring(index + query.length));
+            
+            return before + `<span class="highlight">${match}</span>` + after;
+        }
+        
+        // Render daftar lagu
+        function renderSongList() {
+            const container = document.getElementById('songList');
+            const filterKey = document.getElementById('filterKey').value;
+            const filterStyle = document.getElementById('filterStyle').value;
+            const searchInput = document.getElementById('searchInput');
+            const clearBtn = document.getElementById('clearSearch');
+            const resultCount = document.getElementById('searchResultCount');
+            
+            searchQuery = searchInput.value.trim();
+            
+            // Tampilkan/sembunyikan tombol clear
+            clearBtn.style.display = searchQuery ? 'block' : 'none';
+            
+            // Filter berdasarkan kunci dan style
+            let filteredSongs = songs;
+            
+            if (filterKey) {
+                filteredSongs = filteredSongs.filter(s => s.key === filterKey);
+            }
+            
+            if (filterStyle) {
+                filteredSongs = filteredSongs.filter(s => s.style === filterStyle);
+            }
+            
+            // Pencarian
+            const searchedSongs = searchSongs(filteredSongs, searchQuery);
+            
+            // Update info hasil pencarian
+            if (searchQuery && searchQuery.length >= 2) {
+                resultCount.textContent = `Ditemukan ${searchedSongs.length} lagu untuk "${escapeHtml(searchQuery)}"`;
+            } else if (searchQuery && searchQuery.length === 1) {
+                resultCount.textContent = 'Ketik minimal 2 huruf untuk mencari';
+            } else {
+                resultCount.textContent = '';
+            }
+            
+            if (searchedSongs.length === 0) {
+                let emptyMessage = '';
+                if (searchQuery && searchQuery.length >= 2) {
+                    emptyMessage = 'Tidak ada lagu yang cocok dengan pencarian';
+                } else if (filterKey || filterStyle) {
+                    emptyMessage = 'Tidak ada lagu yang cocok dengan filter';
+                } else {
+                    emptyMessage = 'Belum ada lagu. Tambahkan lagu pertama Anda!';
+                }
+                
+                container.innerHTML = `<div class="empty-state">
+                    <i class="fas fa-${searchQuery ? 'search' : 'music'}"></i>
+                    <p>${emptyMessage}</p>
+                </div>`;
+                return;
+            }
+            
+            container.innerHTML = searchedSongs.map(song => `
+                <div class="song-item">
+                    <div class="song-info">
+                        <div class="song-title">${highlightText(song.title, searchQuery)}</div>
+                        <div class="song-meta">
+                            <span><i class="fas fa-key"></i> Kunci: <span class="key-badge">${song.key}</span></span>
+                            <span><i class="fas fa-sliders-h"></i> Style: <span class="style-badge">${escapeHtml(song.style || '-')}</span></span>
+                        </div>
+                    </div>
+                    <div class="song-actions">
+                        <button class="icon-btn" onclick="editSong('${song.id}')" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="icon-btn delete" onclick="deleteSong('${song.id}')" title="Hapus">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            updateStats();
+            updateFilterOptions();
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Update statistik
+        function updateStats() {
+            document.getElementById('totalSongs').textContent = songs.length;
+            
+            // Kunci terbanyak
+            const keyCount = {};
+            songs.forEach(s => keyCount[s.key] = (keyCount[s.key] || 0) + 1);
+            const popularKey = Object.entries(keyCount).sort((a,b) => b[1] - a[1])[0];
+            document.getElementById('popularKey').textContent = popularKey ? popularKey[0] : '-';
+            
+            // Style terbanyak
+            const styleCount = {};
+            songs.forEach(s => { if(s.style) styleCount[s.style] = (styleCount[s.style] || 0) + 1; });
+            const popularStyle = Object.entries(styleCount).sort((a,b) => b[1] - a[1])[0];
+            document.getElementById('popularStyle').textContent = popularStyle ? popularStyle[0] : '-';
+        }
+        
+        // Update opsi filter
+        function updateFilterOptions() {
+            const keyFilter = document.getElementById('filterKey');
+            const styleFilter = document.getElementById('filterStyle');
+            
+            const keys = [...new Set(songs.map(s => s.key))].sort();
+            const styles = [...new Set(songs.map(s => s.style).filter(Boolean))].sort();
+            
+            const currentKeyFilter = keyFilter.value;
+            const currentStyleFilter = styleFilter.value;
+            
+            keyFilter.innerHTML = '<option value="">Semua Kunci</option>' + 
+                keys.map(k => `<option value="${k}" ${k === currentKeyFilter ? 'selected' : ''}>${k}</option>`).join('');
+            
+            styleFilter.innerHTML = '<option value="">Semua Style</option>' + 
+                styles.map(s => `<option value="${s}" ${s === currentStyleFilter ? 'selected' : ''}>${s}</option>`).join('');
+        }
+        
+        // Tambah/Edit lagu
+        function addOrUpdateSong() {
+            const title = document.getElementById('songTitle').value.trim();
+            const key = document.getElementById('selectedKey').value;
+            let style = document.getElementById('songStyle').value;
+            
+            if (style === 'Custom') {
+                style = document.getElementById('customStyle').value.trim();
+            }
+            
+            if (!title) {
+                alert('Nama lagu wajib diisi!');
+                return;
+            }
+            
+            if (editingId) {
+                // Update
+                const index = songs.findIndex(s => s.id === editingId);
+                if (index !== -1) {
+                    songs[index] = { ...songs[index], title, key, style };
+                }
+                editingId = null;
+                document.getElementById('cancelEditBtn').style.display = 'none';
+                document.getElementById('addSongBtn').innerHTML = '<i class="fas fa-save"></i> Simpan Lagu';
+            } else {
+                // Create
+                const newSong = {
+                    id: Date.now().toString(),
+                    title,
+                    key,
+                    style: style || 'Tidak ditentukan'
+                };
+                songs.push(newSong);
+            }
+            
+            saveSongs();
+            clearForm();
+            renderSongList();
+        }
+        
+        // Edit lagu
+        window.editSong = function(id) {
+            const song = songs.find(s => s.id === id);
+            if (!song) return;
+            
+            editingId = id;
+            document.getElementById('songTitle').value = song.title;
+            document.getElementById('selectedKey').value = song.key;
+            document.getElementById('songStyle').value = song.style;
+            
+            renderKeyGrid();
+            
+            document.getElementById('cancelEditBtn').style.display = 'block';
+            document.getElementById('addSongBtn').innerHTML = '<i class="fas fa-edit"></i> Update Lagu';
+            
+            // Scroll ke form
+            document.querySelector('.add-form').scrollIntoView({ behavior: 'smooth' });
+        };
+        
+        // Hapus lagu
+        window.deleteSong = function(id) {
+            if (confirm('Yakin ingin menghapus lagu ini?')) {
+                songs = songs.filter(s => s.id !== id);
+                saveSongs();
+                
+                if (editingId === id) {
+                    clearForm();
+                }
+                
+                renderSongList();
+            }
+        };
+        
+        // Reset form
+        function clearForm() {
+            document.getElementById('songTitle').value = '';
+            document.getElementById('selectedKey').value = 'C';
+            document.getElementById('songStyle').value = '';
+            document.getElementById('customStyle').value = '';
+            document.getElementById('customStyle').style.display = 'none';
+            
+            editingId = null;
+            document.getElementById('cancelEditBtn').style.display = 'none';
+            document.getElementById('addSongBtn').innerHTML = '<i class="fas fa-save"></i> Simpan Lagu';
+            
+            renderKeyGrid();
+        }
+        
+        // Clear search
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            renderSongList();
+        }
+        
+        // Inisialisasi
+        function init() {
+            loadSongs();
+            renderKeyGrid();
+            renderSongList();
+            
+            // Event listeners
+            document.getElementById('addSongBtn').addEventListener('click', addOrUpdateSong);
+            
+            document.getElementById('cancelEditBtn').addEventListener('click', () => {
+                clearForm();
+            });
+            
+            document.getElementById('songStyle').addEventListener('change', (e) => {
+                const customInput = document.getElementById('customStyle');
+                if (e.target.value === 'Custom') {
+                    customInput.style.display = 'block';
+                    customInput.focus();
+                } else {
+                    customInput.style.display = 'none';
+                }
+            });
+            
+            document.getElementById('filterKey').addEventListener('change', renderSongList);
+            document.getElementById('filterStyle').addEventListener('change', renderSongList);
+            
+            // Search dengan debounce
+            let searchTimeout;
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    renderSongList();
+                }, 300);
+            });
+            
+            // Clear search
+            document.getElementById('clearSearch').addEventListener('click', clearSearch);
+            
+            // Enter di input judul langsung simpan
+            document.getElementById('songTitle').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    addOrUpdateSong();
+                }
+            });
+            
+            // Enter di search input langsung search
+            document.getElementById('searchInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    renderSongList();
+                }
+            });
+        }
+        
+        // Jalankan saat halaman siap
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
