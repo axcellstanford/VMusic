@@ -3,379 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Worship Style Manager - Simple</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Worship Style Manager</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 24px;
-            padding: 32px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        
-        h1 {
-            color: #2d3748;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        h1 i {
-            color: #764ba2;
-        }
-        
-        .subtitle {
-            color: #718096;
-            margin-bottom: 32px;
-            font-size: 0.95rem;
-        }
-        
-        /* Form Styles */
-        .add-form {
-            background: #f7fafc;
-            padding: 24px;
-            border-radius: 16px;
-            margin-bottom: 32px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #4a5568;
-            font-size: 0.9rem;
-        }
-        
-        input, select {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: all 0.3s;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        input:focus, select:focus {
-            outline: none;
-            border-color: #764ba2;
-            box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
-        }
-        
-        .key-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 8px;
-            margin-top: 8px;
-        }
-        
-        .key-option {
-            padding: 12px 8px;
-            text-align: center;
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 500;
-        }
-        
-        .key-option:hover {
-            border-color: #764ba2;
-            background: #f3e8ff;
-        }
-        
-        .key-option.selected {
-            background: #764ba2;
-            color: white;
-            border-color: #764ba2;
-        }
-        
-        .key-option.accidental {
-            background: #fef5e7;
-        }
-        
-        .key-option.accidental.selected {
-            background: #764ba2;
-            color: white;
-        }
-        
-        .btn {
-            background: #764ba2;
-            color: white;
-            border: none;
-            padding: 14px 24px;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-        }
-        
-        .btn:hover {
-            background: #5a3785;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3);
-        }
-        
-        .btn-secondary {
-            background: #48bb78;
-            margin-top: 8px;
-        }
-        
-        .btn-secondary:hover {
-            background: #38a169;
-        }
-        
-        /* Search Bar */
-        .search-container {
-            position: relative;
-            margin-bottom: 20px;
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 14px 16px 14px 48px;
-            border: 2px solid #e2e8f0;
-            border-radius: 40px;
-            font-size: 1rem;
-            transition: all 0.3s;
-            background: white;
-        }
-        
-        .search-input:focus {
-            border-color: #764ba2;
-            box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
-        }
-        
-        .search-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #a0aec0;
-            font-size: 1.2rem;
-        }
-        
-        .clear-search {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #a0aec0;
-            cursor: pointer;
-            padding: 4px;
-            display: none;
-        }
-        
-        .clear-search:hover {
-            color: #764ba2;
-        }
-        
-        /* Song List */
-        .song-list {
-            margin-top: 24px;
-        }
-        
-        .song-item {
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.2s;
-        }
-        
-        .song-item:hover {
-            border-color: #764ba2;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        
-        .song-info {
-            flex: 1;
-        }
-        
-        .song-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #2d3748;
-            margin-bottom: 6px;
-        }
-        
-        /* Highlight pencarian */
-        .highlight {
-            background: #fef5e7;
-            padding: 2px 4px;
-            border-radius: 4px;
-            font-weight: 700;
-        }
-        
-        .song-meta {
-            display: flex;
-            gap: 16px;
-            color: #718096;
-            font-size: 0.9rem;
-        }
-        
-        .song-meta i {
-            margin-right: 6px;
-            color: #764ba2;
-        }
-        
-        .key-badge {
-            background: #764ba2;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        
-        .style-badge {
-            background: #edf2f7;
-            color: #4a5568;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-        
-        .song-actions {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .icon-btn {
-            background: none;
-            border: none;
-            color: #a0aec0;
-            cursor: pointer;
-            padding: 8px;
-            font-size: 1.2rem;
-            transition: color 0.2s;
-        }
-        
-        .icon-btn:hover {
-            color: #764ba2;
-        }
-        
-        .icon-btn.delete:hover {
-            color: #e53e3e;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 48px 20px;
-            color: #a0aec0;
-        }
-        
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 16px;
-            opacity: 0.5;
-        }
-        
-        .filter-bar {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .filter-select {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            border: 2px solid #e2e8f0;
-        }
-        
-        .stats {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        
-        .stat-box {
-            background: #f7fafc;
-            padding: 16px;
-            border-radius: 12px;
-            flex: 1;
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #764ba2;
-        }
-        
-        .stat-label {
-            color: #718096;
-            font-size: 0.9rem;
-            margin-top: 4px;
-        }
-        
-        .search-result-count {
-            color: #718096;
-            font-size: 0.9rem;
-            margin-bottom: 12px;
-        }
-        
-        @media (max-width: 600px) {
-            .container { padding: 20px; }
-            .key-grid { grid-template-columns: repeat(4, 1fr); }
-            .song-meta { flex-direction: column; gap: 6px; }
-            .filter-bar { flex-direction: column; }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:16px}
+        .container{max-width:800px;margin:0 auto;background:#fff;border-radius:20px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+        h1{color:#2d3748;margin-bottom:6px;display:flex;align-items:center;gap:10px;font-size:1.4rem;flex-wrap:wrap}
+        .badge{background:#48bb78;color:#fff;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:600;letter-spacing:.5px}
+        .subtitle{color:#718096;margin-bottom:24px;font-size:.9rem}
+        .form-box{background:#f7fafc;padding:20px;border-radius:14px;margin-bottom:24px}
+        .form-title{display:flex;align-items:center;gap:8px;margin-bottom:16px;color:#2d3748;font-size:1rem;font-weight:600}
+        .form-title svg{width:20px;height:20px;fill:#764ba2}
+        .fg{margin-bottom:16px}
+        label{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-weight:600;color:#4a5568;font-size:.85rem}
+        label svg{width:14px;height:14px;fill:#764ba2}
+        input[type=text],input[type=date],select{width:100%;padding:12px 14px;border:2px solid #e2e8f0;border-radius:10px;font-size:.95rem;font-family:inherit;transition:all .2s}
+        input[type=text]:focus,input[type=date]:focus,select:focus{outline:none;border-color:#764ba2;box-shadow:0 0 0 3px rgba(118,75,162,.1)}
+        .keys{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:6px}
+        .key{padding:10px 4px;text-align:center;background:#fff;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer;font-weight:500;transition:all .15s;user-select:none;font-size:.9rem}
+        .key:hover{border-color:#764ba2;background:#f3e8ff}
+        .key.on{background:#764ba2;color:#fff;border-color:#764ba2}
+        .key.sharp{background:#fef5e7}
+        .key.sharp.on{background:#764ba2;color:#fff}
+        .btn{background:#764ba2;color:#fff;border:none;padding:12px 20px;border-radius:10px;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .2s;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit}
+        .btn:hover{background:#5a3785;transform:translateY(-1px);box-shadow:0 4px 12px rgba(118,75,162,.3)}
+        .btn:active{transform:translateY(0)}
+        .btn svg{width:16px;height:16px;fill:#fff}
+        .btn2{background:#48bb78;margin-top:6px}
+        .btn2:hover{background:#38a169}
+        .btn-outline{background:#fff;color:#764ba2;border:2px solid #764ba2;margin-top:6px}
+        .btn-outline:hover{background:#f3e8ff;transform:translateY(-1px)}
+        .btn-outline svg{fill:#764ba2}
+        .stats{display:flex;gap:12px;margin-bottom:16px}
+        .stat{background:#f7fafc;padding:14px;border-radius:10px;flex:1;text-align:center}
+        .stat-n{font-size:1.6rem;font-weight:700;color:#764ba2}
+        .stat-l{color:#718096;font-size:.8rem;margin-top:2px}
+        .search-wrap{position:relative;margin-bottom:14px}
+        .search-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;fill:#a0aec0}
+        .search-input{width:100%;padding:12px 40px;border:2px solid #e2e8f0;border-radius:30px;font-size:.95rem;font-family:inherit;transition:all .2s}
+        .search-input:focus{outline:none;border-color:#764ba2;box-shadow:0 0 0 3px rgba(118,75,162,.1)}
+        .clear-x{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px;display:none}
+        .clear-x svg{width:16px;height:16px;fill:#a0aec0}
+        .clear-x:hover svg{fill:#764ba2}
+        .filters{display:flex;gap:10px;margin-bottom:14px}
+        .filters select{flex:1;padding:10px;border-radius:8px;font-size:.9rem}
+        .result-info{color:#718096;font-size:.85rem;margin-bottom:10px}
+        .list{margin-top:16px}
+        .item{background:#fff;border:2px solid #e2e8f0;border-radius:14px;padding:16px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;transition:all .15s}
+        .item:hover{border-color:#764ba2;box-shadow:0 4px 12px rgba(0,0,0,.05)}
+        .info{flex:1;min-width:0}
+        .title{font-size:1.1rem;font-weight:700;color:#2d3748;margin-bottom:4px;word-break:break-word}
+        .hl{background:#fef5e7;padding:1px 3px;border-radius:3px;font-weight:700}
+        .meta{display:flex;gap:14px;color:#718096;font-size:.85rem;flex-wrap:wrap}
+        .meta span{display:flex;align-items:center;gap:5px}
+        .meta svg{width:13px;height:13px;fill:#764ba2}
+        .kbadge{background:#764ba2;color:#fff;padding:3px 10px;border-radius:16px;font-weight:600;font-size:.85rem}
+        .sbadge{background:#edf2f7;color:#4a5568;padding:3px 10px;border-radius:16px;font-size:.85rem}
+        .acts{display:flex;gap:2px;margin-left:10px;flex-shrink:0}
+        .ibtn{background:none;border:none;cursor:pointer;padding:8px;border-radius:6px;transition:all .15s;display:flex;align-items:center}
+        .ibtn svg{width:16px;height:16px;fill:#a0aec0;transition:fill .15s}
+        .ibtn:hover{background:#f7fafc}
+        .ibtn:hover svg{fill:#764ba2}
+        .ibtn.del:hover{background:#fff5f5}
+        .ibtn.del:hover svg{fill:#e53e3e}
+        .ibtn.cal{position:relative}
+        .ibtn.cal:hover svg{fill:#e67e22}
+        .ibtn.cal:hover{background:#fff8f0}
+        .empty{text-align:center;padding:40px 20px;color:#a0aec0}
+        .empty svg{width:50px;height:50px;fill:#a0aec0;opacity:.4;margin-bottom:12px}
+        .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);padding:12px 20px;border-radius:10px;font-size:.9rem;z-index:999;transition:transform .3s;display:flex;align-items:center;gap:8px;color:#fff;font-weight:500}
+        .toast.show{transform:translateX(-50%) translateY(0)}
+        .toast.ok{background:#48bb78}
+        .toast.err{background:#e53e3e}
+        .toast svg{width:16px;height:16px;fill:#fff}
+
+        /* TABS */
+        .tabs{display:flex;gap:0;margin-bottom:24px;border-bottom:2px solid #e2e8f0}
+        .tab{flex:1;padding:12px 8px;background:none;border:none;cursor:pointer;font-size:.9rem;font-weight:600;color:#a0aec0;transition:all .2s;border-bottom:3px solid transparent;margin-bottom:-2px;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit}
+        .tab svg{width:16px;height:16px;fill:#a0aec0;transition:fill .2s}
+        .tab.active{color:#764ba2;border-bottom-color:#764ba2}
+        .tab.active svg{fill:#764ba2}
+        .tab:hover{color:#764ba2}
+        .tab:hover svg{fill:#764ba2}
+        .tab-panel{display:none}
+        .tab-panel.active{display:block}
+
+        /* WEEKLY SECTION */
+        .weekly-box{background:#f7fafc;padding:20px;border-radius:14px;margin-bottom:20px}
+        .weekly-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+        .song-picker{position:relative}
+        .song-picker-input{width:100%;padding:12px 14px;border:2px solid #e2e8f0;border-radius:10px;font-size:.95rem;cursor:pointer;background:#fff;font-family:inherit;text-align:left;color:#2d3748;transition:all .2s}
+        .song-picker-input:focus{outline:none;border-color:#764ba2;box-shadow:0 0 0 3px rgba(118,75,162,.1)}
+        .song-dropdown{position:absolute;top:100%;left:0;right:0;background:#fff;border:2px solid #764ba2;border-radius:10px;z-index:100;max-height:220px;overflow-y:auto;display:none;box-shadow:0 8px 24px rgba(0,0,0,.1);margin-top:4px}
+        .song-dropdown.open{display:block}
+        .song-dropdown-search{padding:10px;border-bottom:1px solid #e2e8f0;position:sticky;top:0;background:#fff}
+        .song-dropdown-search input{width:100%;padding:8px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:.9rem;font-family:inherit}
+        .song-dropdown-search input:focus{outline:none;border-color:#764ba2}
+        .song-opt{padding:10px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;transition:background .1s}
+        .song-opt:hover{background:#f3e8ff}
+        .song-opt.selected{background:#f3e8ff;font-weight:600}
+        .song-opt-title{font-size:.9rem;color:#2d3748;font-weight:500}
+        .song-opt-meta{display:flex;gap:6px;align-items:center}
+        .song-opt-key{background:#764ba2;color:#fff;padding:2px 7px;border-radius:10px;font-size:.75rem;font-weight:700}
+        .song-opt-style{color:#a0aec0;font-size:.75rem}
+        .song-opt-none{padding:14px;text-align:center;color:#a0aec0;font-size:.9rem}
+
+        /* Inline multi-song selector for weekly */
+        .selected-songs-list{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+        .sel-song-chip{background:#fff;border:2px solid #764ba2;border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px;animation:fadeIn .2s}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+        .sel-song-chip-info{flex:1;min-width:0}
+        .sel-song-chip-title{font-weight:700;color:#2d3748;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .sel-song-chip-meta{font-size:.75rem;color:#a0aec0}
+        .sel-song-chip-order{background:#764ba2;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0}
+        .sel-song-chip-del{background:none;border:none;cursor:pointer;padding:4px;border-radius:6px;display:flex;align-items:center;flex-shrink:0}
+        .sel-song-chip-del svg{width:14px;height:14px;fill:#a0aec0;transition:fill .15s}
+        .sel-song-chip-del:hover svg{fill:#e53e3e}
+        .add-song-btn{background:#fff;border:2px dashed #cbd5e0;border-radius:10px;padding:10px;width:100%;cursor:pointer;color:#a0aec0;font-size:.9rem;font-family:inherit;font-weight:500;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;margin-top:6px}
+        .add-song-btn:hover{border-color:#764ba2;color:#764ba2;background:#f3e8ff}
+        .add-song-btn svg{width:16px;height:16px;fill:#a0aec0;transition:fill .2s}
+        .add-song-btn:hover svg{fill:#764ba2}
+
+        /* Weekly History */
+        .week-card{background:#fff;border:2px solid #e2e8f0;border-radius:14px;margin-bottom:14px;overflow:hidden;transition:all .15s}
+        .week-card:hover{border-color:#764ba2;box-shadow:0 4px 16px rgba(0,0,0,.07)}
+        .week-card-header{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+        .week-card-header:hover{background:#fafafa}
+        .week-date{font-size:1rem;font-weight:700;color:#2d3748;display:flex;align-items:center;gap:8px}
+        .week-date svg{width:16px;height:16px;fill:#764ba2}
+        .week-date-sub{font-size:.8rem;color:#a0aec0;font-weight:400;margin-top:2px}
+        .week-badge{background:#edf2f7;color:#4a5568;padding:3px 10px;border-radius:12px;font-size:.8rem;font-weight:600}
+        .week-badge.recent{background:#c6f6d5;color:#276749}
+        .week-acts{display:flex;align-items:center;gap:4px}
+        .week-body{padding:0 16px 14px;display:none}
+        .week-body.open{display:block}
+        .week-song-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f0f0}
+        .week-song-row:last-child{border-bottom:none}
+        .week-song-num{background:#764ba2;color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0}
+        .week-song-info{flex:1;min-width:0}
+        .week-song-title{font-weight:600;color:#2d3748;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .week-song-meta{font-size:.75rem;color:#a0aec0;display:flex;gap:8px;margin-top:2px}
+        .week-notes{margin-top:10px;padding:10px;background:#fffbf0;border-radius:8px;font-size:.85rem;color:#744210;border-left:3px solid #f6ad55}
+        .chevron{width:18px;height:18px;fill:#a0aec0;transition:transform .2s;flex-shrink:0}
+        .chevron.open{transform:rotate(180deg)}
+
+        /* Date header groups */
+        .month-header{font-size:.8rem;font-weight:700;color:#a0aec0;text-transform:uppercase;letter-spacing:.5px;padding:8px 0 6px;margin-top:8px}
+
+        /* Notes textarea */
+        textarea{width:100%;padding:12px 14px;border:2px solid #e2e8f0;border-radius:10px;font-size:.9rem;font-family:inherit;resize:vertical;min-height:70px;transition:all .2s}
+        textarea:focus{outline:none;border-color:#764ba2;box-shadow:0 0 0 3px rgba(118,75,162,.1)}
+
+        /* Usage badge on song list */
+        .usage-dot{width:8px;height:8px;border-radius:50%;background:#48bb78;display:inline-block;margin-right:4px;flex-shrink:0}
+
+        /* Filter bar weekly */
+        .wfilter{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+        .wfilter-btn{padding:7px 14px;border-radius:20px;border:2px solid #e2e8f0;background:#fff;cursor:pointer;font-size:.82rem;font-weight:600;color:#718096;transition:all .15s;font-family:inherit}
+        .wfilter-btn.on{background:#764ba2;color:#fff;border-color:#764ba2}
+        .wfilter-btn:hover{border-color:#764ba2;color:#764ba2}
+        .wfilter-btn.on:hover{color:#fff}
+
+        @media(max-width:600px){
+            .keys{grid-template-columns:repeat(4,1fr)}
+            .meta{flex-direction:column;gap:4px}
+            .filters{flex-direction:column}
+            .stats{flex-direction:column}
+            .container{padding:16px}
+            .weekly-form-row{grid-template-columns:1fr}
+            .tab{font-size:.8rem;gap:4px;padding:10px 4px}
+            .wfilter{gap:6px}
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>
-            <i class="fas fa-music"></i>
-            Worship Style Manager
-        </h1>
-        <p class="subtitle">Kelola lagu rohani dengan kunci dasar dan style iringan</p>
-        
-        <!-- Form Tambah Lagu -->
-        <div class="add-form">
-            <h3 style="margin-bottom: 20px; color: #2d3748;">
-                <i class="fas fa-plus-circle" style="color: #764ba2;"></i> Tambah Lagu Baru
-            </h3>
-            
-            <div class="form-group">
-                <label><i class="fas fa-heading"></i> Nama Lagu</label>
-                <input type="text" id="songTitle" placeholder="Contoh: Amazing Grace" maxlength="100">
+<div class="container">
+    <h1>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#764ba2"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        Worship Style Manager
+        <span class="badge">OFFLINE</span>
+    </h1>
+    <p class="subtitle">Kelola lagu rohani dengan kunci dasar, style iringan & jadwal mingguan</p>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab active" id="tabSongs" onclick="switchTab('songs')">
+            <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+            Daftar Lagu
+        </button>
+        <button class="tab" id="tabWeekly" onclick="switchTab('weekly')">
+            <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+            Lagu Mingguan
+        </button>
+    </div>
+
+    <!-- TAB: SONGS -->
+    <div class="tab-panel active" id="panelSongs">
+        <div class="form-box">
+            <div class="form-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+                Tambah Lagu Baru
             </div>
-            
-            <div class="form-group">
-                <label><i class="fas fa-key"></i> Kunci Dasar (12 Pilihan)</label>
-                <div class="key-grid" id="keyGrid"></div>
-                <input type="hidden" id="selectedKey" value="C">
+            <div class="fg">
+                <label><svg viewBox="0 0 24 24"><path d="M5 4v3h5.5v12h3V7H19V4z"/></svg> Nama Lagu</label>
+                <input type="text" id="iTitle" placeholder="Contoh: Amazing Grace" maxlength="100">
             </div>
-            
-            <div class="form-group">
-                <label><i class="fas fa-sliders-h"></i> Nama Style</label>
-                <select id="songStyle">
+            <div class="fg">
+                <label><svg viewBox="0 0 24 24"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg> Kunci Dasar</label>
+                <div class="keys" id="keyGrid"></div>
+                <input type="hidden" id="iKey" value="C">
+            </div>
+            <div class="fg">
+                <label><svg viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg> Style</label>
+                <select id="iStyle">
                     <option value="">-- Pilih Style --</option>
                     <option value="Pop Ballad">Pop Ballad</option>
                     <option value="Slow Worship">Slow Worship</option>
@@ -391,409 +231,433 @@
                     <option value="Acoustic Fingerstyle">Acoustic Fingerstyle</option>
                     <option value="Custom">Custom (Tulis Manual)</option>
                 </select>
-                <input type="text" id="customStyle" placeholder="Atau tulis style manual..." style="margin-top: 8px; display: none;">
+                <input type="text" id="iCustom" placeholder="Tulis style manual..." style="margin-top:6px;display:none">
             </div>
-            
-            <button class="btn" id="addSongBtn">
-                <i class="fas fa-save"></i> Simpan Lagu
+            <button class="btn" id="btnSave">
+                <svg viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+                Simpan Lagu
             </button>
-            <button class="btn btn-secondary" id="cancelEditBtn" style="display: none;">
-                <i class="fas fa-times"></i> Batal Edit
+            <button class="btn btn2" id="btnCancel" style="display:none">
+                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                Batal Edit
             </button>
         </div>
-        
-        <!-- Statistik -->
+
         <div class="stats">
-            <div class="stat-box">
-                <div class="stat-number" id="totalSongs">0</div>
-                <div class="stat-label">Total Lagu</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-number" id="popularKey">-</div>
-                <div class="stat-label">Kunci Terbanyak</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-number" id="popularStyle">-</div>
-                <div class="stat-label">Style Terbanyak</div>
-            </div>
+            <div class="stat"><div class="stat-n" id="sTotal">0</div><div class="stat-l">Total Lagu</div></div>
+            <div class="stat"><div class="stat-n" id="sKey">-</div><div class="stat-l">Kunci Terbanyak</div></div>
+            <div class="stat"><div class="stat-n" id="sStyle">-</div><div class="stat-l">Style Terbanyak</div></div>
         </div>
-        
-        <!-- Search Bar -->
-        <div class="search-container">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" class="search-input" id="searchInput" placeholder="Cari lagu... (minimal 2 huruf)">
-            <i class="fas fa-times clear-search" id="clearSearch"></i>
+
+        <div class="search-wrap">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <input type="text" class="search-input" id="iSearch" placeholder="Cari lagu... (min 2 huruf)">
+            <button class="clear-x" id="btnClear">
+                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
         </div>
-        
-        <!-- Filter -->
-        <div class="filter-bar">
-            <select class="filter-select" id="filterKey">
-                <option value="">Semua Kunci</option>
-            </select>
-            <select class="filter-select" id="filterStyle">
-                <option value="">Semua Style</option>
-            </select>
+
+        <div class="filters">
+            <select id="fKey"><option value="">Semua Kunci</option></select>
+            <select id="fStyle"><option value="">Semua Style</option></select>
         </div>
-        
-        <!-- Search Result Info -->
-        <div class="search-result-count" id="searchResultCount"></div>
-        
-        <!-- Daftar Lagu -->
-        <div class="song-list" id="songList">
-            <div class="empty-state">
-                <i class="fas fa-music"></i>
-                <p>Belum ada lagu. Tambahkan lagu pertama Anda!</p>
+
+        <div class="result-info" id="resInfo"></div>
+        <div class="list" id="list">
+            <div class="empty">
+                <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                <p>Belum ada lagu. Tambahkan lagu pertama!</p>
             </div>
         </div>
     </div>
 
-    <script>
-        // Database sederhana dengan localStorage
-        const STORAGE_KEY = 'worship_simple_db';
-        
-        // 12 Kunci Kromatis
-        const ALL_KEYS = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-        
-        // State aplikasi
-        let songs = [];
-        let editingId = null;
-        let searchQuery = '';
-        
-        // Load data dari localStorage
-        function loadSongs() {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored) {
-                songs = JSON.parse(stored);
-            } else {
-                // Data contoh
-                songs = [
-                    { id: '1', title: 'Amazing Grace', key: 'G', style: 'Slow Worship' },
-                    { id: '2', title: 'How Great Is Our God', key: 'C', style: 'Pop Ballad' },
-                    { id: '3', title: '10,000 Reasons', key: 'G', style: 'Acoustic Fingerstyle' },
-                    { id: '4', title: 'Kau Yang Terindah', key: 'E', style: 'Pop Ballad' },
-                    { id: '5', title: 'Bapa Engkau Sungguh Baik', key: 'D', style: 'Piano Solo' },
-                ];
-                saveSongs();
-            }
-        }
-        
-        function saveSongs() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(songs));
-        }
-        
-        // Render Key Grid
-        function renderKeyGrid() {
-            const grid = document.getElementById('keyGrid');
-            const selectedKey = document.getElementById('selectedKey').value;
-            
-            grid.innerHTML = ALL_KEYS.map(key => {
-                const isAccidental = key.includes('#');
-                const isSelected = key === selectedKey;
-                return `<div class="key-option ${isAccidental ? 'accidental' : ''} ${isSelected ? 'selected' : ''}" 
-                             onclick="selectKey('${key}')">${key}</div>`;
-            }).join('');
-        }
-        
-        window.selectKey = function(key) {
-            document.getElementById('selectedKey').value = key;
-            renderKeyGrid();
-        };
-        
-        // Fungsi pencarian dengan highlight
-        function searchSongs(songList, query) {
-            if (!query || query.length < 2) return songList;
-            
-            const lowerQuery = query.toLowerCase();
-            return songList.filter(song => 
-                song.title.toLowerCase().includes(lowerQuery)
-            );
-        }
-        
-        // Highlight teks yang cocok dengan pencarian
-        function highlightText(text, query) {
-            if (!query || query.length < 2) return escapeHtml(text);
-            
-            const lowerText = text.toLowerCase();
-            const lowerQuery = query.toLowerCase();
-            const index = lowerText.indexOf(lowerQuery);
-            
-            if (index === -1) return escapeHtml(text);
-            
-            const before = escapeHtml(text.substring(0, index));
-            const match = escapeHtml(text.substring(index, index + query.length));
-            const after = escapeHtml(text.substring(index + query.length));
-            
-            return before + `<span class="highlight">${match}</span>` + after;
-        }
-        
-        // Render daftar lagu
-        function renderSongList() {
-            const container = document.getElementById('songList');
-            const filterKey = document.getElementById('filterKey').value;
-            const filterStyle = document.getElementById('filterStyle').value;
-            const searchInput = document.getElementById('searchInput');
-            const clearBtn = document.getElementById('clearSearch');
-            const resultCount = document.getElementById('searchResultCount');
-            
-            searchQuery = searchInput.value.trim();
-            
-            // Tampilkan/sembunyikan tombol clear
-            clearBtn.style.display = searchQuery ? 'block' : 'none';
-            
-            // Filter berdasarkan kunci dan style
-            let filteredSongs = songs;
-            
-            if (filterKey) {
-                filteredSongs = filteredSongs.filter(s => s.key === filterKey);
-            }
-            
-            if (filterStyle) {
-                filteredSongs = filteredSongs.filter(s => s.style === filterStyle);
-            }
-            
-            // Pencarian
-            const searchedSongs = searchSongs(filteredSongs, searchQuery);
-            
-            // Update info hasil pencarian
-            if (searchQuery && searchQuery.length >= 2) {
-                resultCount.textContent = `Ditemukan ${searchedSongs.length} lagu untuk "${escapeHtml(searchQuery)}"`;
-            } else if (searchQuery && searchQuery.length === 1) {
-                resultCount.textContent = 'Ketik minimal 2 huruf untuk mencari';
-            } else {
-                resultCount.textContent = '';
-            }
-            
-            if (searchedSongs.length === 0) {
-                let emptyMessage = '';
-                if (searchQuery && searchQuery.length >= 2) {
-                    emptyMessage = 'Tidak ada lagu yang cocok dengan pencarian';
-                } else if (filterKey || filterStyle) {
-                    emptyMessage = 'Tidak ada lagu yang cocok dengan filter';
-                } else {
-                    emptyMessage = 'Belum ada lagu. Tambahkan lagu pertama Anda!';
-                }
-                
-                container.innerHTML = `<div class="empty-state">
-                    <i class="fas fa-${searchQuery ? 'search' : 'music'}"></i>
-                    <p>${emptyMessage}</p>
-                </div>`;
-                return;
-            }
-            
-            container.innerHTML = searchedSongs.map(song => `
-                <div class="song-item">
-                    <div class="song-info">
-                        <div class="song-title">${highlightText(song.title, searchQuery)}</div>
-                        <div class="song-meta">
-                            <span><i class="fas fa-key"></i> Kunci: <span class="key-badge">${song.key}</span></span>
-                            <span><i class="fas fa-sliders-h"></i> Style: <span class="style-badge">${escapeHtml(song.style || '-')}</span></span>
-                        </div>
+    <!-- TAB: WEEKLY -->
+    <div class="tab-panel" id="panelWeekly">
+        <!-- Form tambah lagu mingguan -->
+        <div class="form-box weekly-box">
+            <div class="form-title">
+                <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+                <span id="weekFormTitle">Tambah Jadwal Minggu Ini</span>
+            </div>
+
+            <div class="weekly-form-row">
+                <div class="fg" style="margin-bottom:0">
+                    <label><svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg> Tanggal Ibadah</label>
+                    <input type="date" id="wDate">
+                </div>
+                <div class="fg" style="margin-bottom:0">
+                    <label><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> Tema / Keterangan</label>
+                    <input type="text" id="wTheme" placeholder="Contoh: Ibadah Raya, Paskah..." maxlength="80">
+                </div>
+            </div>
+
+            <div class="fg" style="margin-top:14px">
+                <label><svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg> Pilih Lagu</label>
+                <div id="selectedSongsList" class="selected-songs-list"></div>
+                <button class="add-song-btn" id="addSongBtn" onclick="openSongPicker()">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+                    + Tambah Lagu
+                </button>
+
+                <!-- Song Picker Dropdown -->
+                <div class="song-dropdown" id="songDropdown">
+                    <div class="song-dropdown-search">
+                        <input type="text" id="pickerSearch" placeholder="Cari lagu..." oninput="filterPicker()">
                     </div>
-                    <div class="song-actions">
-                        <button class="icon-btn" onclick="editSong('${song.id}')" title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="icon-btn delete" onclick="deleteSong('${song.id}')" title="Hapus">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                    <div id="pickerList"></div>
+                </div>
+            </div>
+
+            <div class="fg">
+                <label><svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg> Catatan</label>
+                <textarea id="wNotes" placeholder="Catatan tambahan (opsional)..."></textarea>
+            </div>
+
+            <button class="btn" id="btnSaveWeek" onclick="saveWeek()">
+                <svg viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+                Simpan Jadwal
+            </button>
+            <button class="btn btn-outline" id="btnCancelWeek" style="display:none" onclick="cancelWeekEdit()">
+                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                Batal Edit
+            </button>
+        </div>
+
+        <!-- History filter -->
+        <div class="wfilter" id="wFilterBtns">
+            <button class="wfilter-btn on" data-wf="all" onclick="setWeekFilter(this,'all')">Semua</button>
+            <button class="wfilter-btn" data-wf="3" onclick="setWeekFilter(this,'3')">3 Bulan Terakhir</button>
+            <button class="wfilter-btn" data-wf="1" onclick="setWeekFilter(this,'1')">Bulan Ini</button>
+        </div>
+
+        <div id="weekList"></div>
+    </div>
+</div>
+
+<div class="toast" id="toast">
+    <svg id="tIcon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+    <span id="tMsg"></span>
+</div>
+
+<script>
+const DB='worship_db', WDB='worship_weekly_db';
+const KEYS=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+let songs=[], weekly=[], editId=null, weekEditId=null, q='', weekFilter='all';
+let selectedSongs=[]; // [{songId, ...}]
+
+// ---- LOAD / SAVE ----
+function load(){
+    const d=localStorage.getItem(DB);
+    if(d)songs=JSON.parse(d);
+    else{songs=[{id:'1',title:'Amazing Grace',key:'G',style:'Slow Worship'},{id:'2',title:'How Great Is Our God',key:'C',style:'Pop Ballad'},{id:'3',title:'10,000 Reasons',key:'G',style:'Acoustic Fingerstyle'},{id:'4',title:'Kau Yang Terindah',key:'E',style:'Pop Ballad'},{id:'5',title:'Bapa Engkau Sungguh Baik',key:'D',style:'Piano Solo'}];save()}
+    const w=localStorage.getItem(WDB);
+    if(w)weekly=JSON.parse(w);else weekly=[];
+}
+function save(){localStorage.setItem(DB,JSON.stringify(songs))}
+function saveW(){localStorage.setItem(WDB,JSON.stringify(weekly))}
+
+// ---- TOAST ----
+function toast(m,t='ok'){const e=document.getElementById('toast'),ic=document.getElementById('tIcon');e.className='toast '+t;document.getElementById('tMsg').textContent=m;ic.innerHTML=t==='ok'?'<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>':'<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>';e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2500)}
+
+function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
+
+function hl(t,q){if(!q||q.length<2)return esc(t);const i=t.toLowerCase().indexOf(q.toLowerCase());if(i<0)return esc(t);return esc(t.slice(0,i))+'<span class="hl">'+esc(t.slice(i,i+q.length))+'</span>'+esc(t.slice(i+q.length))}
+
+// ---- TABS ----
+function switchTab(tab){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById('tab'+cap(tab)).classList.add('active');
+    document.getElementById('panel'+cap(tab)).classList.add('active');
+    if(tab==='weekly'){renderWeekly();setTodayDate()}
+    closeSongPicker();
+}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+
+// ---- KEYS ----
+function drawKeys(){const g=document.getElementById('keyGrid'),v=document.getElementById('iKey').value;g.innerHTML=KEYS.map(k=>`<div class="key${k.includes('#')?' sharp':''}${k===v?' on':''}" onclick="pickKey('${k}')">${k}</div>`).join('')}
+window.pickKey=function(k){document.getElementById('iKey').value=k;drawKeys()};
+
+// ---- SONG LIST RENDER ----
+function render(){
+    const fk=document.getElementById('fKey').value,fs=document.getElementById('fStyle').value;
+    const si=document.getElementById('iSearch'),cb=document.getElementById('btnClear'),ri=document.getElementById('resInfo');
+    q=si.value.trim();cb.style.display=q?'flex':'none';
+    let f=songs.slice();
+    if(fk)f=f.filter(s=>s.key===fk);
+    if(fs)f=f.filter(s=>s.style===fs);
+    if(q.length>=2){const lq=q.toLowerCase();f=f.filter(s=>s.title.toLowerCase().includes(lq))}
+    if(q.length>=2)ri.textContent=`Ditemukan ${f.length} lagu untuk "${q}"`;
+    else if(q.length===1)ri.textContent='Ketik min 2 huruf';
+    else ri.textContent='';
+
+    // Usage count from weekly
+    const usageMap={};weekly.forEach(w=>{(w.songIds||[]).forEach(sid=>{usageMap[sid]=(usageMap[sid]||0)+1})});
+
+    const c=document.getElementById('list');
+    if(!f.length){
+        const msg=q.length>=2?'Tidak ada lagu cocok':(fk||fs)?'Tidak ada lagu untuk filter ini':'Belum ada lagu. Tambahkan lagu pertama!';
+        const ico=q.length>=2?'M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z':'M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z';
+        c.innerHTML=`<div class="empty"><svg viewBox="0 0 24 24"><path d="${ico}"/></svg><p>${msg}</p></div>`;
+        updStats();updFilter();return
+    }
+    c.innerHTML=f.map(s=>{
+        const u=usageMap[s.id]||0;
+        const usageHtml=u>0?`<span><span class="usage-dot"></span>${u}x dipakai</span>`:'';
+        return `<div class="item"><div class="info"><div class="title">${hl(s.title,q)}</div><div class="meta"><span><svg viewBox="0 0 24 24"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>Kunci: <span class="kbadge">${s.key}</span></span><span><svg viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg>Style: <span class="sbadge">${esc(s.style||'-')}</span></span>${usageHtml}</div></div><div class="acts"><button class="ibtn" onclick="edit('${s.id}')" title="Edit"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button><button class="ibtn del" onclick="del('${s.id}')" title="Hapus"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></div></div>`
+    }).join('');
+    updStats();updFilter()
+}
+
+function updStats(){
+    document.getElementById('sTotal').textContent=songs.length;
+    const kc={};songs.forEach(s=>kc[s.key]=(kc[s.key]||0)+1);const pk=Object.entries(kc).sort((a,b)=>b[1]-a[1])[0];
+    document.getElementById('sKey').textContent=pk?pk[0]:'-';
+    const sc={};songs.forEach(s=>{if(s.style)sc[s.style]=(sc[s.style]||0)+1});const ps=Object.entries(sc).sort((a,b)=>b[1]-a[1])[0];
+    document.getElementById('sStyle').textContent=ps?(ps[0].length>10?ps[0].slice(0,10)+'…':ps[0]):'-'
+}
+
+function updFilter(){
+    const fk=document.getElementById('fKey'),fs=document.getElementById('fStyle');
+    const ks=[...new Set(songs.map(s=>s.key))].sort(),ss=[...new Set(songs.map(s=>s.style).filter(Boolean))].sort();
+    const ck=fk.value,cs=fs.value;
+    fk.innerHTML='<option value="">Semua Kunci</option>'+ks.map(k=>`<option value="${k}"${k===ck?' selected':''}>${k}</option>`).join('');
+    fs.innerHTML='<option value="">Semua Style</option>'+ss.map(s=>`<option value="${s}"${s===cs?' selected':''}>${s}</option>`).join('')
+}
+
+// ---- SONG CRUD ----
+function doSave(){
+    const t=document.getElementById('iTitle').value.trim(),k=document.getElementById('iKey').value;
+    let s=document.getElementById('iStyle').value;
+    if(s==='Custom')s=document.getElementById('iCustom').value.trim();
+    if(!t){toast('Nama lagu wajib diisi!','err');document.getElementById('iTitle').focus();return}
+    if(editId){const i=songs.findIndex(x=>x.id===editId);if(i>-1)songs[i]={...songs[i],title:t,key:k,style:s||'-'};toast('Lagu diperbarui!');editId=null;document.getElementById('btnCancel').style.display='none';document.getElementById('btnSave').innerHTML='<svg viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg> Simpan Lagu'}
+    else{songs.push({id:Date.now()+'',title:t,key:k,style:s||'-'});toast('Lagu ditambahkan!')}
+    save();clr();render()
+}
+
+window.edit=function(id){const s=songs.find(x=>x.id===id);if(!s)return;editId=id;document.getElementById('iTitle').value=s.title;document.getElementById('iKey').value=s.key;
+const sel=document.getElementById('iStyle'),opts=[...sel.options].map(o=>o.value);if(opts.includes(s.style)){sel.value=s.style;document.getElementById('iCustom').style.display='none'}else if(s.style&&s.style!=='-'){sel.value='Custom';document.getElementById('iCustom').value=s.style;document.getElementById('iCustom').style.display='block'}
+drawKeys();document.getElementById('btnCancel').style.display='block';document.getElementById('btnSave').innerHTML='<svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg> Update Lagu';document.querySelector('.form-box').scrollIntoView({behavior:'smooth'})};
+
+window.del=function(id){if(confirm('Hapus lagu ini?')){songs=songs.filter(x=>x.id!==id);save();toast('Lagu dihapus!');if(editId===id)clr();render()}};
+
+function clr(){document.getElementById('iTitle').value='';document.getElementById('iKey').value='C';document.getElementById('iStyle').value='';document.getElementById('iCustom').value='';document.getElementById('iCustom').style.display='none';editId=null;document.getElementById('btnCancel').style.display='none';document.getElementById('btnSave').innerHTML='<svg viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg> Simpan Lagu';drawKeys()}
+
+// ---- WEEKLY: DATE HELPERS ----
+function setTodayDate(){
+    if(!document.getElementById('wDate').value){
+        const t=new Date();
+        document.getElementById('wDate').value=t.toISOString().slice(0,10)
+    }
+}
+
+function fmtDate(iso){
+    if(!iso)return'-';
+    const d=new Date(iso+'T00:00:00');
+    return d.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'})
+}
+
+function fmtDateShort(iso){
+    if(!iso)return'-';
+    const d=new Date(iso+'T00:00:00');
+    return d.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})
+}
+
+function fmtMonth(iso){
+    if(!iso)return'-';
+    const d=new Date(iso+'T00:00:00');
+    return d.toLocaleDateString('id-ID',{month:'long',year:'numeric'})
+}
+
+function isRecent(iso){
+    const d=new Date(iso+'T00:00:00');
+    const now=new Date();
+    const diff=(now-d)/1000/60/60/24;
+    return diff>=0&&diff<=14
+}
+
+// ---- WEEKLY: SONG PICKER ----
+window.openSongPicker=function(){
+    document.getElementById('pickerSearch').value='';
+    filterPicker();
+    document.getElementById('songDropdown').classList.add('open');
+    document.getElementById('pickerSearch').focus();
+    // click outside closes
+    setTimeout(()=>{document.addEventListener('click',outsidePicker,{once:true})},50)
+}
+
+function outsidePicker(e){
+    const d=document.getElementById('songDropdown'),btn=document.getElementById('addSongBtn');
+    if(!d.contains(e.target)&&e.target!==btn){closeSongPicker()}
+    else if(d.classList.contains('open')){document.addEventListener('click',outsidePicker,{once:true})}
+}
+
+function closeSongPicker(){document.getElementById('songDropdown').classList.remove('open')}
+
+window.filterPicker=function(){
+    const sq=document.getElementById('pickerSearch').value.toLowerCase();
+    const available=songs.filter(s=>!selectedSongs.find(x=>x.id===s.id));
+    const filtered=sq?available.filter(s=>s.title.toLowerCase().includes(sq)):available;
+    const pl=document.getElementById('pickerList');
+    if(!filtered.length){pl.innerHTML='<div class="song-opt-none">Tidak ada lagu tersedia</div>';return}
+    pl.innerHTML=filtered.map(s=>`<div class="song-opt" onclick="pickSong('${s.id}')"><div><div class="song-opt-title">${esc(s.title)}</div><div class="song-opt-meta"><span class="song-opt-key">${s.key}</span><span class="song-opt-style">${esc(s.style||'')}</span></div></div></div>`).join('')
+}
+
+window.pickSong=function(id){
+    const s=songs.find(x=>x.id===id);if(!s)return;
+    if(selectedSongs.find(x=>x.id===id))return;
+    selectedSongs.push({id:s.id});
+    renderSelectedSongs();
+    closeSongPicker();
+}
+
+function renderSelectedSongs(){
+    const c=document.getElementById('selectedSongsList');
+    c.innerHTML=selectedSongs.map((sel,i)=>{
+        const s=songs.find(x=>x.id===sel.id);if(!s)return'';
+        return `<div class="sel-song-chip"><div class="sel-song-chip-order">${i+1}</div><div class="sel-song-chip-info"><div class="sel-song-chip-title">${esc(s.title)}</div><div class="sel-song-chip-meta">${s.key} · ${esc(s.style||'-')}</div></div><button class="sel-song-chip-del" onclick="removeSel(${i})"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></div>`
+    }).join('')
+}
+
+window.removeSel=function(idx){selectedSongs.splice(idx,1);renderSelectedSongs()}
+
+// ---- WEEKLY: SAVE ----
+window.saveWeek=function(){
+    const dt=document.getElementById('wDate').value;
+    const theme=document.getElementById('wTheme').value.trim();
+    const notes=document.getElementById('wNotes').value.trim();
+    if(!dt){toast('Pilih tanggal ibadah!','err');document.getElementById('wDate').focus();return}
+    if(!selectedSongs.length){toast('Pilih minimal 1 lagu!','err');return}
+    const entry={
+        id:weekEditId||Date.now()+'',
+        date:dt,
+        theme,
+        notes,
+        songIds:selectedSongs.map(x=>x.id),
+        createdAt:weekEditId?(weekly.find(w=>w.id===weekEditId)||{}).createdAt||Date.now():Date.now()
+    };
+    if(weekEditId){const i=weekly.findIndex(w=>w.id===weekEditId);if(i>-1)weekly[i]=entry;toast('Jadwal diperbarui!')}
+    else{weekly.unshift(entry);toast('Jadwal disimpan!')}
+    saveW();cancelWeekEdit();renderWeekly()
+}
+
+window.cancelWeekEdit=function(){
+    weekEditId=null;selectedSongs=[];
+    document.getElementById('wDate').value='';
+    document.getElementById('wTheme').value='';
+    document.getElementById('wNotes').value='';
+    renderSelectedSongs();
+    setTodayDate();
+    document.getElementById('btnCancelWeek').style.display='none';
+    document.getElementById('btnSaveWeek').innerHTML='<svg viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg> Simpan Jadwal';
+    document.getElementById('weekFormTitle').textContent='Tambah Jadwal Minggu Ini'
+}
+
+// ---- WEEKLY: EDIT / DELETE ----
+window.editWeek=function(id){
+    const w=weekly.find(x=>x.id===id);if(!w)return;
+    weekEditId=id;
+    document.getElementById('wDate').value=w.date;
+    document.getElementById('wTheme').value=w.theme||'';
+    document.getElementById('wNotes').value=w.notes||'';
+    selectedSongs=(w.songIds||[]).map(sid=>({id:sid})).filter(x=>songs.find(s=>s.id===x.id));
+    renderSelectedSongs();
+    document.getElementById('btnCancelWeek').style.display='flex';
+    document.getElementById('btnSaveWeek').innerHTML='<svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg> Update Jadwal';
+    document.getElementById('weekFormTitle').textContent='Edit Jadwal';
+    document.querySelector('#panelWeekly .weekly-box').scrollIntoView({behavior:'smooth'})
+}
+
+window.delWeek=function(id){if(confirm('Hapus jadwal ini?')){weekly=weekly.filter(x=>x.id!==id);saveW();toast('Jadwal dihapus!');if(weekEditId===id)cancelWeekEdit();renderWeekly()}}
+
+// ---- WEEKLY: FILTER ----
+window.setWeekFilter=function(el,val){
+    weekFilter=val;
+    document.querySelectorAll('.wfilter-btn').forEach(b=>b.classList.remove('on'));
+    el.classList.add('on');
+    renderWeekly()
+}
+
+// ---- WEEKLY: RENDER ----
+function renderWeekly(){
+    const now=new Date();
+    let wl=weekly.slice().sort((a,b)=>b.date.localeCompare(a.date));
+
+    // Apply filter
+    if(weekFilter!=='all'){
+        const months=parseInt(weekFilter);
+        const cutoff=new Date(now.getFullYear(),now.getMonth()-months+1,1);
+        wl=wl.filter(w=>{const d=new Date(w.date+'T00:00:00');return d>=cutoff})
+    }
+
+    const c=document.getElementById('weekList');
+    if(!wl.length){
+        c.innerHTML=`<div class="empty"><svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg><p>Belum ada jadwal. Tambahkan jadwal pertama!</p></div>`;
+        return
+    }
+
+    // Group by month
+    const groups={};
+    wl.forEach(w=>{
+        const mk=w.date.slice(0,7);
+        if(!groups[mk])groups[mk]=[];
+        groups[mk].push(w)
+    });
+
+    let html='';
+    Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{
+        const [y,m]=mk.split('-');
+        const monthName=new Date(parseInt(y),parseInt(m)-1,1).toLocaleDateString('id-ID',{month:'long',year:'numeric'});
+        html+=`<div class="month-header">📅 ${monthName}</div>`;
+        groups[mk].forEach(w=>{
+            const sNames=(w.songIds||[]).map(sid=>{const s=songs.find(x=>x.id===sid);return s?s:null}).filter(Boolean);
+            const recent=isRecent(w.date);
+            const badgeClass=recent?'week-badge recent':'week-badge';
+            const badgeText=recent?'Terbaru':`${(w.songIds||[]).length} lagu`;
+            const notesHtml=w.notes?`<div class="week-notes">📝 ${esc(w.notes)}</div>`:'';
+            html+=`<div class="week-card">
+                <div class="week-card-header" onclick="toggleWeekCard('${w.id}')">
+                    <div>
+                        <div class="week-date"><svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>${fmtDateShort(w.date)}${w.theme?` — ${esc(w.theme)}`:''}</div>
+                        <div class="week-date-sub">${fmtDate(w.date)}</div>
+                    </div>
+                    <div class="week-acts">
+                        <span class="${badgeClass}">${badgeText}</span>
+                        <button class="ibtn" onclick="event.stopPropagation();editWeek('${w.id}')" title="Edit"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button>
+                        <button class="ibtn del" onclick="event.stopPropagation();delWeek('${w.id}')" title="Hapus"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+                        <svg class="chevron" id="chev-${w.id}" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
                     </div>
                 </div>
-            `).join('');
-            
-            updateStats();
-            updateFilterOptions();
-        }
-        
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        // Update statistik
-        function updateStats() {
-            document.getElementById('totalSongs').textContent = songs.length;
-            
-            // Kunci terbanyak
-            const keyCount = {};
-            songs.forEach(s => keyCount[s.key] = (keyCount[s.key] || 0) + 1);
-            const popularKey = Object.entries(keyCount).sort((a,b) => b[1] - a[1])[0];
-            document.getElementById('popularKey').textContent = popularKey ? popularKey[0] : '-';
-            
-            // Style terbanyak
-            const styleCount = {};
-            songs.forEach(s => { if(s.style) styleCount[s.style] = (styleCount[s.style] || 0) + 1; });
-            const popularStyle = Object.entries(styleCount).sort((a,b) => b[1] - a[1])[0];
-            document.getElementById('popularStyle').textContent = popularStyle ? popularStyle[0] : '-';
-        }
-        
-        // Update opsi filter
-        function updateFilterOptions() {
-            const keyFilter = document.getElementById('filterKey');
-            const styleFilter = document.getElementById('filterStyle');
-            
-            const keys = [...new Set(songs.map(s => s.key))].sort();
-            const styles = [...new Set(songs.map(s => s.style).filter(Boolean))].sort();
-            
-            const currentKeyFilter = keyFilter.value;
-            const currentStyleFilter = styleFilter.value;
-            
-            keyFilter.innerHTML = '<option value="">Semua Kunci</option>' + 
-                keys.map(k => `<option value="${k}" ${k === currentKeyFilter ? 'selected' : ''}>${k}</option>`).join('');
-            
-            styleFilter.innerHTML = '<option value="">Semua Style</option>' + 
-                styles.map(s => `<option value="${s}" ${s === currentStyleFilter ? 'selected' : ''}>${s}</option>`).join('');
-        }
-        
-        // Tambah/Edit lagu
-        function addOrUpdateSong() {
-            const title = document.getElementById('songTitle').value.trim();
-            const key = document.getElementById('selectedKey').value;
-            let style = document.getElementById('songStyle').value;
-            
-            if (style === 'Custom') {
-                style = document.getElementById('customStyle').value.trim();
-            }
-            
-            if (!title) {
-                alert('Nama lagu wajib diisi!');
-                return;
-            }
-            
-            if (editingId) {
-                // Update
-                const index = songs.findIndex(s => s.id === editingId);
-                if (index !== -1) {
-                    songs[index] = { ...songs[index], title, key, style };
-                }
-                editingId = null;
-                document.getElementById('cancelEditBtn').style.display = 'none';
-                document.getElementById('addSongBtn').innerHTML = '<i class="fas fa-save"></i> Simpan Lagu';
-            } else {
-                // Create
-                const newSong = {
-                    id: Date.now().toString(),
-                    title,
-                    key,
-                    style: style || 'Tidak ditentukan'
-                };
-                songs.push(newSong);
-            }
-            
-            saveSongs();
-            clearForm();
-            renderSongList();
-        }
-        
-        // Edit lagu
-        window.editSong = function(id) {
-            const song = songs.find(s => s.id === id);
-            if (!song) return;
-            
-            editingId = id;
-            document.getElementById('songTitle').value = song.title;
-            document.getElementById('selectedKey').value = song.key;
-            document.getElementById('songStyle').value = song.style;
-            
-            renderKeyGrid();
-            
-            document.getElementById('cancelEditBtn').style.display = 'block';
-            document.getElementById('addSongBtn').innerHTML = '<i class="fas fa-edit"></i> Update Lagu';
-            
-            // Scroll ke form
-            document.querySelector('.add-form').scrollIntoView({ behavior: 'smooth' });
-        };
-        
-        // Hapus lagu
-        window.deleteSong = function(id) {
-            if (confirm('Yakin ingin menghapus lagu ini?')) {
-                songs = songs.filter(s => s.id !== id);
-                saveSongs();
-                
-                if (editingId === id) {
-                    clearForm();
-                }
-                
-                renderSongList();
-            }
-        };
-        
-        // Reset form
-        function clearForm() {
-            document.getElementById('songTitle').value = '';
-            document.getElementById('selectedKey').value = 'C';
-            document.getElementById('songStyle').value = '';
-            document.getElementById('customStyle').value = '';
-            document.getElementById('customStyle').style.display = 'none';
-            
-            editingId = null;
-            document.getElementById('cancelEditBtn').style.display = 'none';
-            document.getElementById('addSongBtn').innerHTML = '<i class="fas fa-save"></i> Simpan Lagu';
-            
-            renderKeyGrid();
-        }
-        
-        // Clear search
-        function clearSearch() {
-            document.getElementById('searchInput').value = '';
-            renderSongList();
-        }
-        
-        // Inisialisasi
-        function init() {
-            loadSongs();
-            renderKeyGrid();
-            renderSongList();
-            
-            // Event listeners
-            document.getElementById('addSongBtn').addEventListener('click', addOrUpdateSong);
-            
-            document.getElementById('cancelEditBtn').addEventListener('click', () => {
-                clearForm();
-            });
-            
-            document.getElementById('songStyle').addEventListener('change', (e) => {
-                const customInput = document.getElementById('customStyle');
-                if (e.target.value === 'Custom') {
-                    customInput.style.display = 'block';
-                    customInput.focus();
-                } else {
-                    customInput.style.display = 'none';
-                }
-            });
-            
-            document.getElementById('filterKey').addEventListener('change', renderSongList);
-            document.getElementById('filterStyle').addEventListener('change', renderSongList);
-            
-            // Search dengan debounce
-            let searchTimeout;
-            document.getElementById('searchInput').addEventListener('input', (e) => {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => {
-                    renderSongList();
-                }, 300);
-            });
-            
-            // Clear search
-            document.getElementById('clearSearch').addEventListener('click', clearSearch);
-            
-            // Enter di input judul langsung simpan
-            document.getElementById('songTitle').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    addOrUpdateSong();
-                }
-            });
-            
-            // Enter di search input langsung search
-            document.getElementById('searchInput').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    renderSongList();
-                }
-            });
-        }
-        
-        // Jalankan saat halaman siap
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
+                <div class="week-body" id="wb-${w.id}">
+                    ${sNames.map((s,i)=>`<div class="week-song-row"><div class="week-song-num">${i+1}</div><div class="week-song-info"><div class="week-song-title">${esc(s.title)}</div><div class="week-song-meta"><span class="kbadge" style="font-size:.7rem;padding:1px 7px">${s.key}</span><span>${esc(s.style||'-')}</span></div></div></div>`).join('')}
+                    ${notesHtml}
+                </div>
+            </div>`
+        })
+    });
+    c.innerHTML=html
+}
+
+window.toggleWeekCard=function(id){
+    const body=document.getElementById('wb-'+id),chev=document.getElementById('chev-'+id);
+    body.classList.toggle('open');chev.classList.toggle('open')
+}
+
+// ---- INIT ----
+document.addEventListener('DOMContentLoaded',function(){
+    load();drawKeys();render();setTodayDate();
+
+    document.getElementById('btnSave').addEventListener('click',doSave);
+    document.getElementById('btnCancel').addEventListener('click',clr);
+    document.getElementById('iStyle').addEventListener('change',function(e){const c=document.getElementById('iCustom');c.style.display=e.target.value==='Custom'?'block':'none';if(e.target.value==='Custom')c.focus()});
+    document.getElementById('fKey').addEventListener('change',render);
+    document.getElementById('fStyle').addEventListener('change',render);
+    let st;document.getElementById('iSearch').addEventListener('input',function(){clearTimeout(st);st=setTimeout(render,200)});
+    document.getElementById('btnClear').addEventListener('click',function(){document.getElementById('iSearch').value='';render()});
+    document.getElementById('iTitle').addEventListener('keypress',function(e){if(e.key==='Enter')doSave()});
+    document.getElementById('iSearch').addEventListener('keypress',function(e){if(e.key==='Enter')render()})
+});
+</script>
 </body>
 </html>
